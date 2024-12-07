@@ -6,9 +6,11 @@ from werkzeug.utils import secure_filename
 from datetime import date, datetime
 
 from database import membros as bd_membros 
+from database import prototipo as bd_prototipo 
 import formatter
 from error_reporter import report_error
 from classes import membros as mem
+from classes import prototipo as prot
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "FormulaUFMG"
@@ -110,4 +112,26 @@ def modifica_conta(email):
             membro = bd_membros.get_membro(email)
             return render_template("modifica_conta.html",membro = membro)
 
-
+@app.route("/cria_prototipo", methods=["POST", "GET"])
+def cria_prototipo():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        if request.method == "Post":
+            nome = request.form.get("nome")
+            ano_fabricacao = request.form.get("ano_fabricacao")
+            temporada = request.form.get("Temporada")
+            peso = request.form.get("Peso")
+            status = request.form.get("Status")
+            prototipo = prot.Prototipo(None, nome, ano_fabricacao, status, peso, temporada)
+            verificador, var_prototipo = bd_prototipo.create_prototipo(prototipo)
+            if verificador == True and var_prototipo == True:
+                return redirect("/inicio")
+            elif verificador == True and var_prototipo == False:
+                flash("Erro ao cadastrar o prototipo")
+                return redirect("/cria_prototipo")
+            elif verificador == False:
+                flash("Estamos com problemas com a integração com o banco de dados, tente mais tarde")
+                return redirect("/inicio")
+        else:
+            return render_template("cadastro_prototipo.html")
