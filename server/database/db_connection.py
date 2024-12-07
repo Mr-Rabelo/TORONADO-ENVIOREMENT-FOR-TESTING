@@ -1,9 +1,8 @@
 import mysql.connector
-from mysql.connector import Error
 
 def connect_to_db():
     try:
-        con = mysql.connector(host='localhost', database='TEFT', user='root', password='italo175933')
+        con = mysql.connector.connect(host='localhost', database='TEFT', user='root', password='italo175933')
         cursor = con.cursor()
         verificador = True
     except:
@@ -15,4 +14,3 @@ def connect_to_db():
 def close_connect_to_bd(cursor, con):
     cursor.close()
     con.close()
-    
