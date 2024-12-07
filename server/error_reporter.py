@@ -27,3 +27,10 @@ def send_email(recipient, subject, message):
         print('erro ao enviar email:{}'.format(e))
     finally:
         server.quit()
+
+def report_error(error):
+    emails = ["dataanalysisformulaufmg2024@gmail.com","italonunespereiravieira@gmail.com","italonunca04@gmail.com"]
+    for email in emails:
+        send_email(email,"Erro no TEFT",error)
+
+report_error("teste de funcionamento")
