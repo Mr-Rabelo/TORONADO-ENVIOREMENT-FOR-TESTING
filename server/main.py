@@ -49,3 +49,11 @@ def inicio():
 def sair():
     session["name"] = None
     return redirect("/")
+
+@app.route("/membros")
+def membros():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        membros = bd_membros.get_membros()
+        return render_template("membros.html", membros)
