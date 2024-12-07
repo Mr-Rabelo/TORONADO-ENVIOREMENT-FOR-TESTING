@@ -44,5 +44,8 @@ def inicio():
         return redirect("/login")
     else:
         return render_template("inicio.html")
-    
 
+@app.route("/sair")
+def sair():
+    session["name"] = None
+    return redirect("/")
