@@ -82,3 +82,32 @@ def cria_conta():
                 return redirect("/inicio")
         else:
             return render_template("cadastro_membro.html")
+
+@app.route("/modifica_conta/<email>", methods=["POST", "GET"])
+def modifica_conta(email):
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        if request.method == "Post":
+            nome = request.form.get("email")
+            subgrupo = request.form.get("email")
+            email = request.form.get("email")
+            senha = request.form.get("email")
+            senha = formatter.encode_password(senha)
+            membro = bd_membros.get_membro(email)
+            membro.modifica(nome, subgrupo, senha)
+            verificador, var_membro = bd_membros.modifica(membro)
+            if verificador == True and var_membro == True:
+                flash("informaçoes atualizadas")
+                return redirect("/inicio")
+            elif verificador == True and var_membro == False:
+                flash("Erro ao atualizar as informações")
+                return redirect("/modifica_conta/{}".format(email))
+            elif verificador == False:
+                flash("Estamos com problemas na integração com o banco de dados")
+                return redirect("/inicio")
+        else:
+            membro = bd_membros.get_membro(email)
+            return render_template("modifica_conta.html",membro = membro)
+
+
