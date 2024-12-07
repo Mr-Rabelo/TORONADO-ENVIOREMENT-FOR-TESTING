@@ -135,3 +135,11 @@ def cria_prototipo():
                 return redirect("/inicio")
         else:
             return render_template("cadastro_prototipo.html")
+
+@app.route("/prototipos")
+def prototipos():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        prototipos = bd_prototipo.get_prototipos()
+        render_template("prototipos.html", prototipos=prototipos)
