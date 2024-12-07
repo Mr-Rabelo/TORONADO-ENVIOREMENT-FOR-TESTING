@@ -11,3 +11,8 @@ def connect_to_db():
         cursor = None
         con = None
     return verificador, cursor, con
+
+def close_connect_to_bd(cursor, con):
+    cursor.close()
+    con.close()
+    
