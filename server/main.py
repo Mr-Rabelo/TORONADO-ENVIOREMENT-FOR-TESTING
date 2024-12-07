@@ -8,7 +8,7 @@ from datetime import date, datetime
 from database import membros as bd_membros 
 import formatter
 from error_reporter import report_error
-from classes import membros
+from classes import membros as mem
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "FormulaUFMG"
@@ -57,3 +57,28 @@ def membros():
     else:
         membros = bd_membros.get_membros()
         return render_template("membros.html", membros)
+
+@app.route("/cria_conta", methods=["POST", "GET"])
+def cria_conta():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        if request.method == "Post":
+            nome = request.form.get("nome")
+            subgrupo = request.form.get("subgrupo")
+            email = request.form.get("email")
+            senha = request.form.get("senha")
+            senha = formatter.encode_password(senha)
+            membro = mem.Membros(email, senha, nome, subgrupo)
+            verificador, var_membro = creat_membro(membro)
+            if verificador == True and var_membro == True:
+                session["name"] = email
+                return redirect("/inicio")
+            elif verificador == True and var_membro == False:
+                flash("Erro ao cria a conta")
+                return redirect("/inicio")
+            elif verificador == False:
+                flash("Estamos com problemas com a integração com o banco de dados")
+                return redirect("/inicio")
+        else:
+            return render_template("cadastro_membro.html")
