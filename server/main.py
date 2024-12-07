@@ -36,4 +36,13 @@ def login() -> None:
     else:
         # renderiza a pagina de login
         return render_template("login.html")
+
+# caminho para a tela de inico do sistema    
+@app.route("/inicio")
+def inicio():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        return render_template("inicio.html")
     
+
