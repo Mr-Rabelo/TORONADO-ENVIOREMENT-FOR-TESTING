@@ -143,3 +143,31 @@ def prototipos():
     else:
         prototipos = bd_prototipo.get_prototipos()
         render_template("prototipos.html", prototipos=prototipos)
+
+@app.route("/modifica/<id_prototipo>", methods=["POST", "GET"])
+def modifica_prototipo(id_prototipo):
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        if request.method == "Post":
+            nome = request.form.get("nome")
+            ano_fabricacao = request.form.get("ano_fabricacao")
+            temporada = request.form.get("Temporada")
+            peso = request.form.get("Peso")
+            status = request.form.get("Status")
+            id_prototipo = request.form.get("id_prototipo")
+            prototipo = bd_prototipo.get_prototipo(id_prototipo)
+            prototipo.modifica(nome, ano_fabricacao, status, peso, temporada)
+            verificador, var_prototipo = bd_prototipo.moodifica(prototipo)
+            if verificador == True and var_prototipo == True:
+                flash("informações atualizadas")
+                return redirect("/inicio")
+            elif verificador == True and var_prototipo == False:
+                flash("erro ao realiza as modificações")
+                return redirect("/modifica/{}".format(id_prototipo))
+            elif verificador == False:
+                flash("Estamos com problemas na integração com o banco de dados, tente mais tarde")
+                return redirect("/inicio")
+        else:
+            prototipo = bd_prototipo.get_prototipo(id_prototipo)
+            return render_template("modifica_prototipo.html", prototipo = prototipo)
