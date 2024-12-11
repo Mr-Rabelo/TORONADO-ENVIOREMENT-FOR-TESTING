@@ -7,13 +7,16 @@ from datetime import date, datetime
 
 from database import membros as bd_membros 
 from database import prototipo as bd_prototipo 
+from database import circuito as bd_circuito 
 import formatter
 from error_reporter import report_error
 from classes import membros as mem
 from classes import prototipo as prot
+from classes import circuito as circu
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "FormulaUFMG"
+CAMINHO_UPLOAD = os.path.join()
 
 # rota para o login 
 @app.route("/login", methods=["POST", "GET"])
@@ -171,3 +174,24 @@ def modifica_prototipo(id_prototipo):
         else:
             prototipo = bd_prototipo.get_prototipo(id_prototipo)
             return render_template("modifica_prototipo.html", prototipo = prototipo)
+
+@app.route("/cadastro_circuito", methods=["POST", "GET"])
+def cadastro_circuito():
+    if not session.get("name"):
+        return redirect("/login")
+    else:
+        if request.method == "Post":
+            nome = request.form.get("nome")
+            tempo_descolcamento = request.form.get("tempo")
+            KM = request.form.get("kms")
+            curvas = request.form.get("curvas")
+            cones = request.form.get("cones")
+            local = request.form.get("local")
+            circuito = circu.Circuito(None, nome, tempo_descolcamento, KM, curvas, cones, local)
+            verificador, var_circuito = bd_circuito.create_circuito(circuito)
+            if verificador == True and var_circuito == True:
+                circuito = bd_circuito.get_circuito_id(circuito)
+                pista = request.files["circuito"]
+                
+        else:
+            return render_template("cadastro_cicuito.html")
