@@ -9,6 +9,7 @@ from database import membros as bd_membros
 from database import prototipo as bd_prototipo 
 from database import circuito as bd_circuito 
 import formatter
+import path_manager
 from error_reporter import report_error
 from classes import membros as mem
 from classes import prototipo as prot
@@ -16,7 +17,6 @@ from classes import circuito as circu
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = "FormulaUFMG"
-CAMINHO_UPLOAD = os.path.join()
 
 # rota para o login 
 @app.route("/login", methods=["POST", "GET"])
@@ -191,7 +191,13 @@ def cadastro_circuito():
             verificador, var_circuito = bd_circuito.create_circuito(circuito)
             if verificador == True and var_circuito == True:
                 circuito = bd_circuito.get_circuito_id(circuito)
+                CAMINHO_UPLOAD = path_manager.get_upload_path()
                 pista = request.files["circuito"]
-                
+                try:
+                    savePath = path_manager.join_path(CAMINHO_UPLOAD,str(circuito.id_circuito)+".PNG")
+                    pista.save(savePath)
+                except:
+                    flash("problemas com o envio da imagem para o servidor")
+                return redirect("/inicio")
         else:
             return render_template("cadastro_cicuito.html")
