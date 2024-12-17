@@ -47,8 +47,8 @@ def get_circuitos():
     else:
         return verificador, None
 
-def get_circuito(circuito):
-    comando = "SELECT * FROM {} WHERE ID_circuito = \'{}\'".format(TABLE, circuito.id_circuito)
+def get_circuito(id_circuito):
+    comando = "SELECT * FROM {} WHERE ID_circuito = \'{}\'".format(TABLE, id_circuito)
     verificador, cursor, con = connection.connect_to_db()
     if verificador == True:
         try:
