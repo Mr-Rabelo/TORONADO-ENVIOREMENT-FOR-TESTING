@@ -46,3 +46,22 @@ def get_circuitos():
         return verificador, var_login
     else:
         return verificador, None
+
+def get_circuito(circuito):
+    comando = "SELECT * FROM {} WHERE ID_circuito = \'{}\'".format(TABLE, circuito.id_circuito)
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            linhas = cursor.fetchall()
+            saida = []
+            for linha in linhas:
+                saida.append(circuito.Circuito(linha[0],linha[1],linha[2],linha[3],linha[4],linha[5],linha[6],None))
+            var_login = saida
+        except Error as e:
+            verificador = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None 
