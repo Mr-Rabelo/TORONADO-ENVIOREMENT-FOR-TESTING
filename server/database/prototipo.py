@@ -97,3 +97,22 @@ def apagar(prototipo):
         return verificador, var_login
     else:
         return verificador, None
+
+def get_id(prototipo):
+    comando = "SELECT * FROM {} WHERE nome, ano_fabricacao, status, peso, temporada = \'{}\'".format(TABLE, prototipo.nome, prototipo.ano_fabricacao, prototipo.status, prototipo.peso, prototipo.temporada)
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            linhas = cursor.fetchall()
+            saida = []
+            for linha in linhas:
+                saida.append(prototipo.Prototipo(linha[0],linha[1],linha[2],linha[3],linha[4],linha[5]))
+            var_login = saida
+        except Error as e :
+            verificador = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None
