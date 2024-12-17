@@ -108,3 +108,19 @@ def creat_membro(membro):
         return verificador, var_login
     else:
         return verificador, None
+
+def apagar(membro):
+    comando = """DELETE FROM {} WHERE email = \'{}\'""".format(TABLE, membro.email)
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            con.commit()
+            var_login = True
+        except Error as e:
+            var_login = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None
