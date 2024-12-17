@@ -78,7 +78,7 @@ def get_membro(email):
         return verificador, None
 
 def modifica(membro):
-    comando = ("UPDATE {} SET nome = \'{}\', subgrupo = \'{}\', senha = \'{}\'  WHERE email = \'{}\'".format(TABLE, membro.subgrupo, membro.senha, membro.email))
+    comando = ("UPDATE {} SET nome = \'{}\', subgrupo = \'{}\', senha = \'{}\'  WHERE email = \'{}\'".format(TABLE, membro.nome, membro.subgrupo, membro.senha, membro.email))
     verificador, cursor, con = connection.connect_to_db() # coleta as informações para a conexão com o banco 
     if verificador == True:
         try:
@@ -88,9 +88,23 @@ def modifica(membro):
         except Error as e:
             var_login = False
             send_email(e)
+        connection.close_connect_to_bd(cursor, con)
         return verificador, var_login
     else:
         return verificador, None
 
 def creat_membro(membro):
-    pass
+    comando = """INSERT INTO {} (nome, email, subgrupo, senha) VALUE (\'{}\', \'{}\',\'{}\',\'{}\')""".format(TABLE, membro.nome, membro.email, membro.subgrupo, membro.senha )
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            con.commit()
+            var_login = True
+        except Error as e:
+            var_login = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None
