@@ -4,3 +4,8 @@ class Membros:
         self.senha = senha
         self.nome = nome
         self.subgrupo = subgrupo
+
+    def modifica(self, nome, subgrupo, senha) -> None:
+        self.nome = nome
+        self.subgrupo = subgrupo
+        self.senha = senha

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar e Apagar</title>
+    <style>
+        /* Estilizando o formulário oculto */
+        #formulario {
+            display: none; /* Oculta o formulário inicialmente */
+            border: 1px solid #ccc;
+            padding: 15px;
+            width: 300px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        button {
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tabela</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Subgrupo</th>
+                <th>Editar</th>
+                <th>Apagar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>André Oliveira Campos Calixto</td>
+                <td>andrewcamposcalixto@gmail.com</td>
+                <td>Transmissão</td>
+                <td><button onclick="editarLinha(this)">Editar</button></td>
+                <td><button onclick="apagarLinha(this)">Apagar</button></td>
+            </tr>
+            <tr>
+                <td>Arthur Ferreira Rabelo</td>
+                <td>arthurfrabelo06@gmail.com</td>
+                <td>Data Analysis</td>
+                <td><button onclick="editarLinha(this)">Editar</button></td>
+                <td><button onclick="apagarLinha(this)">Apagar</button></td>
+            </tr>
+            <tr>
+                <td>Bernardo de Matos Bonin</td>
+                <td>bernardobonin07@gmail.com</td>
+                <td>Motor</td>
+                <td><button onclick="editarLinha(this)">Editar</button></td>
+                <td><button onclick="apagarLinha(this)">Apagar</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="formulario">
+        <h3>Formulário de Edição</h3>
+        <form id="editForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome"><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+
+            <label for="subgrupo">Subgrupo:</label>
+            <input type="text" id="subgrupo" name="subgrupo"><br><br>
+
+            <button type="submit">Salvar</button>
+            <button type="button" onclick="fecharFormulario()">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        function editarLinha(botao) {
+            // Pega a linha da tabela
+            const linha = botao.parentNode.parentNode;
+
+            // Coleta os dados da linha
+            const nome = linha.cells[0].innerText;
+            const email = linha.cells[1].innerText;
+            const subgrupo = linha.cells[2].innerText;
+
+            // Preenche o formulário com os dados coletados
+            document.getElementById("nome").value = nome;
+            document.getElementById("email").value = email;
+            document.getElementById("subgrupo").value = subgrupo;
+
+            // Exibe o formulário
+            document.getElementById("formulario").style.display = "block";
+        }
+
+        function apagarLinha(botao) {
+            const linha = botao.parentNode.parentNode;
+
+            // Coleta os dados da linha
+            const nome = linha.cells[0].innerText;
+            const email = linha.cells[1].innerText;
+            const subgrupo = linha.cells[2].innerText;
+
+            // Preenche o formulário com os dados coletados
+            document.getElementById("nome").value = nome;
+            document.getElementById("email").value = email;
+            document.getElementById("subgrupo").value = subgrupo;
+
+            // Exibe o formulário
+            document.getElementById("formulario").style.display = "block";
+        }
+
+        function fecharFormulario() {
+            // Oculta o formulário sem salvar alterações
+            document.getElementById("formulario").style.display = "none";
+        }
+    </script>
+</body>
+</html>
