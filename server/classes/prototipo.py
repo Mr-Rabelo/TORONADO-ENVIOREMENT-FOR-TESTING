@@ -6,3 +6,10 @@ class Prototipo:
         self.status = status
         self.peso = peso
         self.temporada = temporada
+
+    def modificar(self, nome, ano_fabricacao, status, peso, temporada):
+        self.nome = nome
+        self.ano_fabricacao = ano_fabricacao
+        self.status = status
+        self.peso = peso
+        self.temporada = temporada
