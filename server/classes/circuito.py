@@ -7,3 +7,5 @@ class Circuito:
         self.curvas = curvas
         self.cones = cones
         self.local = local
+        if id_circuito != None:
+            self.caminho = "circuito" + str(id_circuito) + ".PNG"
