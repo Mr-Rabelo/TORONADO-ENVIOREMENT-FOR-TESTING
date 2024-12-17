@@ -1,4 +1,5 @@
 import smtplib
+from datetime import datetime
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -32,3 +33,8 @@ def report_error(error):
     emails = ["dataanalysisformulaufmg2024@gmail.com","italonunespereiravieira@gmail.com","italonunca04@gmail.com"]
     for email in emails:
         send_email(email,"Erro no TEFT",error)
+
+def incorrect_access(email):
+    emails = ["dataanalysisformulaufmg2024@gmail.com","italonunespereiravieira@gmail.com","italonunca04@gmail.com"]
+    for email in emails:
+        send_email(email,"acesso incorreto","{} no dia e hora: {}".format(email,datetime.now()))
