@@ -65,3 +65,20 @@ def get_circuito(circuito):
         return verificador, var_login
     else:
         return verificador, None 
+
+def modificar(circuito):
+    comando = """UPDATE {} SET nome = \'{}\' tempo_descolcamento = \'{}\' KM = \'{}\' curvas = \'{}\' cones = \'{}\' local WHERE ID_circuito = \'{}\'""".format(TABLE, circuito.nome, circuito.tempo_descolcamento, circuito.KM, circuito.curvas, circuito.cones, circuito.local, circuito.id_circuito)
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            con.commit()
+            var_login = True
+        except Error as e:
+            var_login = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None
+
