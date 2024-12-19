@@ -10,3 +10,7 @@ class Teste:
         self.data = data
         self.id_prototipo = id_prototipo
         self.id_circuito = id_circuito
+        if self.N_teste != None:
+            self.documento = "pre_teste" + str(self.N_teste) + ".pdf"
+        else:
+            self.documento = None
