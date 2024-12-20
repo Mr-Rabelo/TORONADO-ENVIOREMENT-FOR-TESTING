@@ -8,4 +8,5 @@ class Membros:
     def modifica(self, nome, subgrupo, senha) -> None:
         self.nome = nome
         self.subgrupo = subgrupo
-        self.senha = senha
+        if senha != None:
+            self.senha = senha
