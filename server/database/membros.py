@@ -67,7 +67,7 @@ def get_membro(email):
             saida = [] 
             for linha in linhas:
                 saida.append(membros.Membros(linha[1], None, linha[0], linha[2]))
-            var_login = saida
+            var_login = saida[0]
         except Error as e: # 
             verificador = False
             send_email(e)
