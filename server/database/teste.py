@@ -55,3 +55,19 @@ def get_teste(id_prototipo, N_teste):
         return verificador, var_login
     else:
         return verificador, None
+
+def creat_teste(teste):
+    comando = """INSERT INTO {} (pilotos, id_objetivos, N_voltas, inicio, fim, almoco, data, id_prototipo, id_circuito) VALUE( \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\', \'{}\')""".format(TABLE, teste.pilotos, teste.id_objetivos, teste.N_voltas, teste.inicio, teste.fim, teste.almoco, teste.data, teste.id_prototipo, teste.id_circuito)
+    verificador, cursor, con = connection.connect_to_db()
+    if verificador == True:
+        try:
+            cursor.execute(comando)
+            con.commit()
+            var_login = True
+        except Error as e:
+            var_login = False
+            send_email(e)
+        connection.close_connect_to_bd(cursor, con)
+        return verificador, var_login
+    else:
+        return verificador, None
